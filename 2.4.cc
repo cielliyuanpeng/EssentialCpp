@@ -1,5 +1,29 @@
 #include <iostream>
+#include <vector>
 using namespace std;
+bool fibon_elem(int pos, int &elm);
+const vector<int>* fibon_seq(int pos);
+
+int main()
+{
+    int elm, pos;
+    while (1)
+    {
+        cout << "Please input position " << endl;
+        cin >> pos;
+        if (fibon_elem(pos, elm))
+        {
+            cout << "fib is " << elm << endl;
+            fibon_seq(pos);
+        }
+        else
+        {
+            cout << "invalid position " << endl;
+        }
+    }
+
+    return 0;
+}
 bool fibon_elem(int pos, int &elm)
 {
     int num_1 = 1, num_2 = 1;
@@ -20,43 +44,20 @@ bool fibon_elem(int pos, int &elm)
         return true;
     }
 }
-bool fibon_seq(int pos)
+const vector<int> *fibon_seq(int pos)
 {
-    int elm;
-    if (!fibon_elem(pos, elm))
-    {
-        cout << "position invalid." << endl;
-        return false;
+    const int max_size = 50;
+    static vector<int> elems;
+    if(pos<=0||pos>max_size){
+        cerr<<"invalid size"<<endl;
+        return 0;
     }
-    for (int i = 1; i < pos; i++)
-    {
-        cout << "print fib seq for " << pos << endl;
-        for (int i = 1; i <= pos; i++)
-        {
-            fibon_elem(i, elm);
-            cout << elm << (!(i % 10) ? "\n" : " ");
+    for(int ix= elems.size();ix<pos;++ix){
+        if(ix == 0||ix == 1){
+            elems.push_back(1);
         }
-        cout << endl;
-        return true;
-    }
-}
-int main()
-{
-    int elm, pos;
-    while (1)
-    {
-        cout << "Please input position " << endl;
-        cin >> pos;
-        if (fibon_elem(pos, elm))
-        {
-            cout << "fib is " << elm << endl;
-            fibon_seq(pos);
-        }
-        else
-        {
-            cout << "invalid position " << endl;
-        }
+        else elems.push_back(elems[ix-1]+elems[ix-2]);
     }
 
-    return 0;
+    return &elems;
 }
