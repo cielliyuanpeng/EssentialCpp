@@ -54,5 +54,22 @@
 需求背景:调用fibonacci数列时每次计算浪费时间,file scope可能会打乱各个函数间的独立性,比较冒险
 
 - 初始化局部静态对象的函数可以返回(const?非const?)局部静态对象的指针
+  
+```cpp
+  for(int ix= elems.size();ix<pos;++ix)
+```
+
+  其中,elems.size()在算一个更大的值的时候会增长,在找更小的值的时候避免重算
 
 ## 2.5 声明inline函数
+
+需求背景:在函数深度比较大(A调用B,B调用C,C调用D......)的时候可能会影响运行速度,这时,我们在函数声明位置加入inline关键字
+
+```cpp
+  inline bool is_size_ok(int size);
+  inline const vector<int> *fibon_seq(int size);
+```
+
+请求编译器在每个调用节点上将函数内容展开,相当于把三个函数写到原来函数里面,提高性能.
+
+- 常被inline的函数一般具有体积小,计算简单,调用频繁的特点
