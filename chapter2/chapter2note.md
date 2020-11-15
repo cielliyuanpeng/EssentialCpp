@@ -1,4 +1,4 @@
-# note for chapter2
+# Note for chapter2
 
 ## 2.1 如何编写函数
 
@@ -73,3 +73,75 @@
 请求编译器在每个调用节点上将函数内容展开,相当于把三个函数写到原来函数里面,提高性能.
 
 - 常被inline的函数一般具有体积小,计算简单,调用频繁的特点
+
+## 2.6提供重载函数
+
+需求背景:需要一组功能类似的函数,传入不同参数的情况下皆可用,同时不希望定义多个函数名,希望用一个函数名,在输入参数不同的情况下实现不同的功能.
+
+## 2.7定义并使用模板函数
+
+需求背景:相同的函数内容针对不同的vector type
+定义函数时使用关键字```template<typename T>```
+example:
+
+```cpp
+template <typename T>
+void display_message(const string &msg,
+                        const vector<T> &vec)
+{
+    cout<<msg<<endl;
+    for(int ix=0;ix<vec.size();++ix)
+    {
+        T t = vec[ix];
+        cout<<t<<" ";
+    }
+    cout<<endl;
+}
+```
+
+## 2.8函数指针
+
+需求背景:有很多函数具有相同返回类型和调用参数的函数,表达的意义也相近(返回Fibonacci seq,lucas seq,square seq .....)
+在调用这些函数时,可以通过指向这些函数的指针作为变量进行访问,增加程序复用性.
+例如
+
+```cpp
+//声明一个名为seq的函数指针,
+//指向的函数返回类型是const vector<int>*,参数是int类型
+const vector<int>* (*seq)(int)
+```
+
+返回类型 (*变量名) (参数类型)
+
+- 函数指针数组
+
+```cpp
+    const vector<int> *(*seq_ptr_all[])(int) = {
+        fibon_seq
+    };
+```
+
+- 枚举类型辅助记忆
+
+```cpp
+    enum ns_type
+    {
+        ns_fib
+    };
+```
+
+- 调用
+
+```cpp
+  seq_ptr_all[ns_fib]
+```
+
+## 2.9设定头文件
+
+需求背景:使用某一函数前需要对其声明,当多个文件都要使用一个函数的时候,可以只在头文件中声明一次,在其他文件中调用即可
+
+- 参数和返回类型需要改变时改变声明即可
+- inline函数要定义在头文件中
+- 非const的全局变量,要声明extern关键字
+- const变量出文件即不可见,所以可以多次定义
+- 用户自定义的头文件引用时用"",stl的用<>

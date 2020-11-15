@@ -33,9 +33,9 @@ const vector<int>* fibon_seq(int size){
             if(ix == 0||ix == 1){
                 elems.push_back(1);
             }
-            else elems.push_back(elems[ix-1]+elems[ix-2]);//2 忘记加else控制
+            else elems.push_back(elems[ix-1]+elems[ix-2]);//bug2 忘记加else控制
         }
-        return &elems;//1 忘记return vector地址,不会报错
+        return &elems;//bug1 忘记return vector地址,不会报错
     }
     
 }
